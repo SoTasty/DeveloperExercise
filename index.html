@@ -157,7 +157,7 @@
             <div class="open_cart_btn" id="open_cart_btn">
                 <img src="images/header/cart.webp" alt="Cart">
                 <p>Корзина</p>
-                <span class="open_cart_number">2</span>
+                <span class="open_cart_number">0</span>
             </div>
         </div>
     </div>
@@ -420,10 +420,10 @@
                     <i class="fa fa-chevron-down sorting_arrow" aria-hidden="true"></i>
                 </div>
                 <ul class="sorting_option">
-                    <li>по возрастанию цены</li>
-                    <li>по убыванию цены</li>
-                    <li>по коду</li>
-                    <li>по названию</li>
+                    <li data-sort="price-asc">по возрастанию цены</li>
+                    <li data-sort="price-desc">по убыванию цены</li>
+                    <li data-sort="code">по коду</li>
+                    <li data-sort="title">по названию</li>
                 </ul>
             </div>
         </div>
@@ -544,6 +544,6 @@
 <script src="js/jquery-1.11.3.min.js"></script>
 <script src="js/jquery.cart.js"></script>
 <script src="js/bootstrap.js"></script>
-<script src="js/harvest.js" type="module"></script>
+<script src="js/harvest.js"></script>
 </body>
 </html>

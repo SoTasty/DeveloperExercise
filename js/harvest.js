@@ -80,7 +80,6 @@ let computerChairList = document.getElementById('computerChairList_____SHOW');
 displayList(data, computerChairList);
 
 function displayList(array, uniqId) {
-
     uniqId.innerHTML = "";
 
     array.map((a) => {
@@ -122,3 +121,72 @@ function displayList(array, uniqId) {
     });
 
 }
+
+// Получение данных из sessionStorage
+function getProducts() {
+    const products = sessionStorage.getItem('cartProducts');
+    return products ? JSON.parse(products) : initialProducts;
+}
+
+// Сохранение данных в sessionStorage
+function saveProducts(products) {
+    sessionStorage.setItem('cartProducts', JSON.stringify(products));
+}
+function productsCount() {
+    const products = getProducts()
+    const res = products.reduce((sum, product) => sum + product.quantity, 0);
+    document.querySelector('.open_cart_number').textContent = res;
+}
+function productItemPriceBtn () {document.querySelectorAll('.product_item_price_btn').forEach(el => {
+    el.addEventListener('click', function (event) {
+        const products = getProducts()
+        let code = event.target.getAttribute('data-code');
+        const product = data.find(el => el.code === code);
+        if (products.some(el => el.code === +code)) {
+            const index = products.findIndex(el => el.code === +code);
+            products[index].quantity++;
+        } else {
+            products.push({
+                code: +product.code,
+                title: product.title,
+                img: product.img,
+                price: +product.price,
+                quantity: 1
+            })
+        }
+
+        saveProducts(products)
+        productsCount()
+    })
+})}
+productItemPriceBtn()
+
+
+// Сортировка
+function sortProducts(criteria) {
+    let sortedData = [...data]; // Создаем копию данных
+    switch (criteria) {
+        case 'price-asc':
+            sortedData.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+            break;
+        case 'price-desc':
+            sortedData.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+            break;
+        case 'code':
+            sortedData.sort((a, b) => parseInt(a.code) - parseInt(b.code));
+            break;
+        case 'title':
+            sortedData.sort((a, b) => a.title.localeCompare(b.title));
+            break;
+    }
+    displayList(sortedData, computerChairList);
+    productItemPriceBtn()
+}
+
+document.querySelectorAll('.sorting_option li').forEach(option => {
+    option.addEventListener('click', function() {
+        const sortType = this.getAttribute('data-sort');
+        document.querySelector('.sorting_selected span').textContent = this.textContent;
+        sortProducts(sortType);
+    });
+});
